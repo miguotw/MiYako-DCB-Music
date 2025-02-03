@@ -4,13 +4,13 @@ const { Translate } = require('../../process_tools');
 
 module.exports = {
     name: 'lyrics',
-    description:('Get the lyrics for the current track'),
+    description:('取得目前音樂的歌詞'),
     voiceChannel: true,
 
     async execute({ inter }) {
         const player = useMainPlayer();
         const queue = useQueue(inter.guild);
-        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`No music currently playing <${inter.member}>... try again ? <❌>`) });
+        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`目前沒有音樂正在播放 <${inter.member}>... 再試一次？ <❌>`) });
 
         const results = await player.lyrics
             .search({
@@ -18,21 +18,21 @@ module.exports = {
             })
             .catch(async (e) => {
                 console.log(e);
-                return inter.editReply({ content: await Translate(`Error! Please contact Developers! | <❌>`) });
+                return inter.editReply({ content: await Translate(`錯誤！請聯絡開發人員！ | <❌>`) });
             });
 
         const lyrics = results?.[0];
-        if (!lyrics?.plainLyrics) return inter.editReply({ content: await Translate(`No lyrics found for <${queue.currentTrack.title}>... try again ? <❌>`) });
+        if (!lyrics?.plainLyrics) return inter.editReply({ content: await Translate(`沒有找到 <${queue.currentTrack.title}> 的歌詞... 再試一次？ <❌>`) });
 
         const trimmedLyrics = lyrics.plainLyrics.substring(0, 1997);
 
         const embed = new EmbedBuilder()
-            .setTitle(await Translate(`Lyrics for <${queue.currentTrack.title}>`))
+            .setTitle(await Translate(`歌詞 <${queue.currentTrack.title}>`))
             .setAuthor({
                 name: lyrics.artistName
             })
             .setDescription(trimmedLyrics.length === 1997 ? `${trimmedLyrics}...` : trimmedLyrics)
-            .setFooter({ text: await Translate('Music comes first - Made with heart by the Community <❤️>'), iconURL: inter.member.avatarURL({ dynamic: true }) })
+            .setFooter({ text: await Translate('音樂至上 - 社群用心製作 <❤️>'), iconURL: inter.member.avatarURL({ dynamic: true }) })
             .setTimestamp()
             .setColor('#2f3136');
 

@@ -3,7 +3,7 @@ const { Translate } = require('../../process_tools');
 
 module.exports = {
     name: 'help',
-    description:("All the commands this bot has!"),
+    description:("這個機器人擁有的所有指令！"),
     showHelp: false,
 
     async execute({ client, inter }) {
@@ -12,10 +12,10 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setColor('#ff0000')
             .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true }) })
-            .setDescription(await Translate('This code comes from a <GitHub> project <[ZerioDev/Music-bot](https://github.com/ZerioDev/Music-bot)>.<\n>The use of this one is possible while keeping the credits for free.<\n>If you want to remove the credits join the Discord support server. <[here](https://discord.gg/5cGSYV8ZZj)>)'))
+            .setDescription(await Translate('這個程式碼來自一個 <GitHub> 專案 <[ZerioDev/Music-bot](https://github.com/ZerioDev/Music-bot)>.<\n>使用這段代碼是可以免費的，但需要保留原作者的版權。<\n>如果你希望去除這些版權標註，可以加入他們的 Discord 支援伺服器，點擊 <[這裡](https://discord.gg/5cGSYV8ZZj)> 進入。)'))
             .addFields([{ name: `Enabled - ${commands.size}`, value: commands.map(x => `\`${x.name}\``).join(' | ') }])
             .setTimestamp()
-            .setFooter({ text: await Translate('Music comes first - Made with heart by the Community <❤️>'), iconURL: inter.member.avatarURL({ dynamic: true }) });
+            .setFooter({ text: await Translate('音樂至上 - 社群用心製作 <❤️>'), iconURL: inter.member.avatarURL({ dynamic: true }) });
 
         inter.editReply({ embeds: [embed] });
     }

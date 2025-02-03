@@ -4,20 +4,20 @@ const { Translate } = require('../../process_tools');
 
 module.exports = {
     name: 'shuffle',
-    description:('Shuffle the queue'),
+    description:('洗牌播放佇列'),
     voiceChannel: true,
 
     async execute({ inter }) {
         const queue = useQueue(inter.guild);
-        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`No music currently playing <${inter.member}>... try again ? <❌>`) });
+        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`目前沒有音樂正在播放 <${inter.member}>... 再試一次？ <❌>`) });
 
-        if (!queue.tracks.toArray()[0]) return inter.editReply({ content: await Translate(`No music in the queue after the current one <${inter.member}>... try again ? <❌>`) });
+        if (!queue.tracks.toArray()[0]) return inter.editReply({ content: await Translate(`在目前的音樂之後，佇列中沒有音樂 <${inter.member}>... 再試一次？ <❌>`) });
 
         queue.tracks.shuffle();
 
         const embed = new EmbedBuilder()
             .setColor('#2f3136')
-            .setAuthor({ name: await Translate(`Queue shuffled <${queue.tracks.size}> song(s)! <✅>`) });
+            .setAuthor({ name: await Translate(`佇列已洗牌 <${queue.tracks.size}> 首歌曲！ <✅>`) });
 
         return inter.editReply({ embeds: [embed] });
     }

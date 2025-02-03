@@ -15,11 +15,11 @@ const playerEvents = readdirSync("./events/Player/").filter((file) =>
 );
 
 GetTranslationModule().then(() => {
-  console.log("| Translation Module Loaded |");
+  console.log("| 翻譯模組已載入 |");
 
   for (const file of discordEvents) {
     const DiscordEvent = require(`./events/Discord/${file}`);
-    const txtEvent = `< -> > [Loaded Discord Event] <${file.split(".")[0]}>`;
+    const txtEvent = `< -> > [載入 Discord Event] <${file.split(".")[0]}>`;
     parseLog(txtEvent);
     client.on(file.split(".")[0], DiscordEvent.bind(null, client));
     delete require.cache[require.resolve(`./events/Discord/${file}`)];
@@ -27,7 +27,7 @@ GetTranslationModule().then(() => {
 
   for (const file of playerEvents) {
     const PlayerEvent = require(`./events/Player/${file}`);
-    const txtEvent = `< -> > [Loaded Player Event] <${file.split(".")[0]}>`;
+    const txtEvent = `< -> > [載入 Player Event] <${file.split(".")[0]}>`;
     parseLog(txtEvent);
     player.events.on(file.split(".")[0], PlayerEvent.bind(null));
     delete require.cache[require.resolve(`./events/Player/${file}`)];
@@ -42,12 +42,12 @@ GetTranslationModule().then(() => {
       const command = require(`./commands/${dirs}/${file}`);
       if (command.name && command.description) {
         commandsArray.push(command);
-        const txtEvent = `< -> > [Loaded Command] <${command.name.toLowerCase()}>`;
+        const txtEvent = `< -> > [已載入指令] <${command.name.toLowerCase()}>`;
         parseLog(txtEvent);
         client.commands.set(command.name.toLowerCase(), command);
         delete require.cache[require.resolve(`./commands/${dirs}/${file}`)];
       } else {
-        const txtEvent = `< -> > [Failed Command] <${command.name.toLowerCase()}>`;
+        const txtEvent = `< -> > [失敗的指令] <${command.name.toLowerCase()}>`;
         parseLog(txtEvent);}
     }
   });

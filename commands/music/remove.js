@@ -4,18 +4,18 @@ const { Translate } = require('../../process_tools');
 
 module.exports = {
     name: 'remove',
-    description: "remove a song from the queue",
+    description: "從佇列中移除音樂",
     voiceChannel: true,
     options: [
         {
             name: 'song',
-            description:('the name/url of the track you want to remove'),
+            description:('您要移除的音樂 名稱/連結'),
             type: ApplicationCommandOptionType.String,
             required: false,
         },
         {
             name: 'number',
-            description:('the place in the queue the song is in'),
+            description:('音樂在佇列中的位置'),
             type: ApplicationCommandOptionType.Number,
             required: false,
         }
@@ -23,23 +23,23 @@ module.exports = {
 
     async execute({ inter }) {
         const queue = useQueue(inter.guild);
-        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`No music currently playing <${inter.member}>... try again ? <❌>`) });
+        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`目前沒有音樂正在播放 <${inter.member}>... 再試一次？ <❌>`) });
 
         const number = inter.options.getNumber('number');
         const track = inter.options.getString('song');
-        if (!track && !number) inter.editReply({ content: await Translate(`You have to use one of the options to remove a song <${inter.member}>... try again ? <❌>`) });
+        if (!track && !number) inter.editReply({ content: await Translate(`您必須使用其中一個選項來移除歌曲 <${inter.member}>... 再試一次？ <❌>`) });
 
         let trackName;
 
         if (track) {
             const toRemove = queue.tracks.toArray().find((t) => t.title === track || t.url === track);
-            if (!toRemove) return inter.editReply({ content: await Translate(`could not find <${track}> <${inter.member}>... try using the url or the full name of the song ? <❌>`) });
+            if (!toRemove) return inter.editReply({ content: await Translate(`找不到 <${track}> <${inter.member}>... 試試使用音樂的網址或全名？ <❌>`) });
 
             queue.removeTrack(toRemove);
         } else if (number) {
             const index = number - 1;
             const name = queue.tracks.toArray()[index].title;
-            if (!name) return inter.editReply({ content: await Translate(`This track does not seem to exist <${inter.member}>...  try again ? <❌>`) });
+            if (!name) return inter.editReply({ content: await Translate(`此音樂似乎不存在 <${inter.member}>...  再試一次？ <❌>`) });
 
             queue.removeTrack(index);
 
@@ -48,7 +48,7 @@ module.exports = {
         
         const embed = new EmbedBuilder()
             .setColor('#2f3136')
-            .setAuthor({ name: await Translate(`Removed <${trackName}> from the queue <✅>`) });
+            .setAuthor({ name: await Translate(`從佇列中移除 <${trackName}> <✅>`) });
 
         return inter.editReply({ embeds: [embed] });
     }

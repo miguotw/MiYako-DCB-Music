@@ -3,13 +3,13 @@ const { Translate } = require('../../process_tools');
 
 module.exports = {
     name: 'controller',
-    description:("Send music controller to a channel"),
+    description:("將音樂控制器傳送至頻道"),
     voiceChannel: false,
     permissions: PermissionsBitField.Flags.ManageMessages,
     options: [
         {
             name: 'channel',
-            description:('The text channel you want to send it to'),
+            description:('您要傳送的文字頻道'),
             type: ApplicationCommandOptionType.Channel,
             required: true,
         }
@@ -17,15 +17,15 @@ module.exports = {
 
     async execute({ inter }) {
         const channel = inter.options.getChannel('channel');
-        if (channel.type !== ChannelType.GuildText) return inter.editReply({ content: await Translate(`You need to send it to a text channel.. <❌>`) });
+        if (channel.type !== ChannelType.GuildText) return inter.editReply({ content: await Translate(`您需要將其傳送至文字頻道... <❌>`) });
 
         const embed = new EmbedBuilder()
-            .setTitle(await Translate('Control your music with the buttons below !'))
+            .setTitle(await Translate('使用下面的按鈕控制您的音樂 ！'))
             .setImage(inter.guild.iconURL({ size: 4096, dynamic: true }))
             .setColor('#2f3136')
-            .setFooter({ text: await Translate('Music comes first - Made with heart by the Community <❤️>'), iconURL: inter.member.avatarURL({ dynamic: true }) });
+            .setFooter({ text: await Translate('音樂至上 - 社群用心製作 <❤️>'), iconURL: inter.member.avatarURL({ dynamic: true }) });
 
-        inter.editReply({ content: await Translate(`Sending controller to <${channel}>... <✅>`) });
+        inter.editReply({ content: await Translate(`傳送控制器至 <${channel}>... <✅>`) });
 
         let EmojiState = client.config.app.enableEmojis;
 
@@ -46,7 +46,7 @@ module.exports = {
         const resumepause = new ButtonBuilder()
             .setLabel(EmojiState ? emojis.ResumePause : ('Resume & Pause'))
             .setCustomId('resume&pause')
-            .setStyle('Danger');
+            .setStyle('Success');
 
         const save = new ButtonBuilder()
             .setLabel(EmojiState ? emojis.savetrack : ('Save'))

@@ -4,12 +4,12 @@ const { Translate } = require('../../process_tools');
 
 module.exports = {
     name: 'play',
-    description:("Play a song!"),
+    description:("播放音樂！"),
     voiceChannel: true,
     options: [
         {
             name: 'song',
-            description:('The song you want to play'),
+            description:('您想播放的音樂'),
             type: ApplicationCommandOptionType.String,
             required: true,
         }
@@ -27,7 +27,7 @@ module.exports = {
         let defaultEmbed = new EmbedBuilder().setColor('#2f3136');
 
         if (!res?.tracks.length) {
-            defaultEmbed.setAuthor({ name: await Translate(`No results found... try again ? <❌>`) });
+            defaultEmbed.setAuthor({ name: await Translate(`沒有找到結果... 再試一次？ <❌>`) });
             return inter.editReply({ embeds: [defaultEmbed] });
         }
 
@@ -45,11 +45,11 @@ module.exports = {
                 }
             });
 
-            defaultEmbed.setAuthor({ name: await Translate(`Loading <${track.title}> to the queue... <✅>`) });
-            await inter.editReply({ embeds: [defaultEmbed] });
+            defaultEmbed.setAuthor({ name: await Translate(`載入 <${track.title}> 到佇列中... <✅>`) });
+            await inter.editReply({ embeds: [defaultEmbed], ephemeral: false });
         } catch (error) {
             console.log(`Play error: ${error}`);
-            defaultEmbed.setAuthor({ name: await Translate(`I can't join the voice channel... try again ? <❌>`) });
+            defaultEmbed.setAuthor({ name: await Translate(`我無法加入語音頻道... 再試一次？ <❌>`) });
             return inter.editReply({ embeds: [defaultEmbed] });
         }
     }

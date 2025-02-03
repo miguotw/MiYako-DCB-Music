@@ -1,23 +1,23 @@
 module.exports = {
     app: {
         token: process.env.DISCORD_TOKEN || 'xxx',
-        playing: 'by the Community ❤️',
+        playing: '星期六去斗六',
         global: true,
         guild: process.env.GUILD_ID || 'xxx',
         extraMessages: false,
         loopMessage: false,
         lang: 'en',
-        enableEmojis: false,
+        enableEmojis: true,
     },
 
     emojis:{
-        'back': '⏪',
-        'skip': '⏩',
-        'ResumePause': '⏯️',
+        'back': '倒帶',
+        'skip': '跳過',
+        'ResumePause': '暫停 / 繼續',
         'savetrack': '💾',
         'volumeUp': '🔊',
         'volumeDown': '🔉',
-        'loop': '🔁',
+        'loop': '重複播放',
     },
 
     opt: {

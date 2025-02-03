@@ -4,13 +4,13 @@ const { Translate } = require('../../process_tools');
 
 module.exports = {
     name: 'history',
-    description:('See the history of the queue'),
+    description:('查看佇列的歷史記錄'),
     voiceChannel: false,
 
     async execute({ inter }) {
         const queue = useQueue(inter.guild);
 
-        if (!queue || queue.history.tracks.toArray().length == 0) return inter.editReply({ content: await Translate(`No music has been played yet`) });
+        if (!queue || queue.history.tracks.toArray().length == 0) return inter.editReply({ content: await Translate(`尚未播放任何音樂`) });
 
         const tracks = queue.history.tracks.toArray();
 
@@ -24,7 +24,7 @@ module.exports = {
             .setDescription(description)
             .setColor('#2f3136')
             .setTimestamp()
-            .setFooter({ text: await Translate('Music comes first - Made with heart by the Community <❤️>'), iconURL: inter.member.avatarURL({ dynamic: true }) });
+            .setFooter({ text: await Translate('音樂至上 - 社群用心製作 <❤️>'), iconURL: inter.member.avatarURL({ dynamic: true }) });
 
         inter.editReply({ embeds: [historyEmbed] });
     }

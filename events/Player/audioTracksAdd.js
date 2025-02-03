@@ -6,7 +6,7 @@ module.exports = (queue) => {
     
     (async () => {
         const embed = new EmbedBuilder()
-        .setAuthor({ name: await Translate(`All the songs in playlist added into the queue <✅>`)})
+        .setAuthor({ name: await Translate(`將播放清單中的所有音樂加入佇列 <✅>`)})
         .setColor('#2f3136');
 
         queue.metadata.channel.send({ embeds: [embed] });

@@ -4,12 +4,12 @@ const { Translate } = require('../../process_tools');
 
 module.exports = {
     name: 'filter',
-    description:('Add a filter to your track'),
+    description:('為您的音樂加入篩選器'),
     voiceChannel: true,
     options: [
         {
             name: 'filter',
-            description:('The filter you want to add'),
+            description:('您要新增的篩選條件'),
             type: ApplicationCommandOptionType.String,
             required: true,
             choices: [...Object.keys(AudioFilters.filters).map(m => Object({ name: m, value: m })).splice(0, 25)],
@@ -18,7 +18,7 @@ module.exports = {
 
     async execute({ inter }) {
         const queue = useQueue(inter.guild);
-        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`No music currently playing <${inter.member}>... try again ? <❌>`) });
+        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`目前沒有音樂正在播放 <${inter.member}>... 再試一次？ <❌>`) });
 
         const actualFilter = queue.filters.ffmpeg.getFiltersEnabled()[0];
         const selectedFilter = inter.options.getString('filter');
@@ -29,9 +29,9 @@ module.exports = {
 
         const filter = filters.find((x) => x.toLowerCase() === selectedFilter.toLowerCase().toString());
 
-        let msg = await Translate (`This filter doesn't exist <${inter.member}>... try again ? <❌ \n>`) +
-            (actualFilter ? await Translate(`Filter currently active: <**${actualFilter}**. \n>`) : "") +
-            await Translate(`List of available filters:`);
+        let msg = await Translate (`此篩選器不存在 <${inter.member}>... 再試一次？ <❌ \n>`) +
+            (actualFilter ? await Translate(`目前使用中的篩選器： <**${actualFilter}**. \n>`) : "") +
+            await Translate(`可用篩選器清單： `);
         filters.forEach(f => msg += `- **${f}**`);
 
         if (!filter) return inter.editReply({ content: msg });
@@ -39,7 +39,7 @@ module.exports = {
         await queue.filters.ffmpeg.toggle(filter);
 
         const filterEmbed = new EmbedBuilder()
-            .setAuthor({ name: await Translate(`The filter <${filter}> is now <${queue.filters.ffmpeg.isEnabled(filter) ? 'enabled' : 'disabled'}> <✅\n> *Reminder: the longer the music is, the longer this will take.*`) })
+            .setAuthor({ name: await Translate(`篩選器 <${filter}> 現在是 <${queue.filters.ffmpeg.isEnabled(filter) ? 'enabled' : 'disabled'}> <✅\n> *提醒：音樂越長，所需時間越長*`) })
             .setColor('#2f3136');
 
         return inter.editReply({ embeds: [filterEmbed] });

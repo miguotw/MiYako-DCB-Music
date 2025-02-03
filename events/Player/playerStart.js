@@ -15,7 +15,7 @@ module.exports = (queue, track) => {
     const embed = new EmbedBuilder()
       .setAuthor({
         name: await Translate(
-          `Started playing <${track.title}> in <${queue.channel.name}> <🎧>`
+          `開始播放 <${track.title}> 位於 <${queue.channel.name}> <🎧>`
         ),
         iconURL: track.thumbnail,
       })
@@ -34,7 +34,7 @@ module.exports = (queue, track) => {
     const resumepause = new ButtonBuilder()
       .setLabel(EmojiState ? emojis.ResumePause : ('Resume & Pause'))
       .setCustomId('resume&pause')
-      .setStyle('Danger');
+      .setStyle('Success');
 
     const loop = new ButtonBuilder()
       .setLabel(EmojiState ? emojis.loop : ('Loop'))

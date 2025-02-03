@@ -4,12 +4,12 @@ const { Translate } = require('../../process_tools');
 
 module.exports = {
     name: 'nowplaying',
-    description: 'See what song is currently playing!',
+    description: '查看目前正在播放的音樂！',
     voiceChannel: true,
 
     async execute({ inter }) {
         const queue = useQueue(inter.guild);
-        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`No music currently playing <${inter.member}>... try again ? <❌>`) });
+        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`目前沒有音樂正在播放 <${inter.member}>... 再試一次？ <❌>`) });
 
         const track = queue.currentTrack;
         const methods = ['disabled', 'track', 'queue'];
@@ -27,7 +27,7 @@ module.exports = {
             .setAuthor({ name: track.title, iconURL: client.user.displayAvatarURL({ size: 1024, dynamic: true }) })
             .setThumbnail(track.thumbnail)
             .setDescription(await Translate(`Volume <**${queue.node.volume}**%> <\n> <Duration **${trackDuration}**> <\n> Progress <${progress}> <\n >Loop mode <**${methods[queue.repeatMode]}**> <\n>Requested by <${track.requestedBy}>`))
-            .setFooter({ text: await Translate('Music comes first - Made with heart by the Community <❤️>'), iconURL: inter.member.avatarURL({ dynamic: true }) })
+            .setFooter({ text: await Translate('音樂至上 - 社群用心製作 <❤️>'), iconURL: inter.member.avatarURL({ dynamic: true }) })
             .setColor('#2f3136')
             .setTimestamp();
         

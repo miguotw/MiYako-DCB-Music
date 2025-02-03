@@ -4,18 +4,18 @@ const { Translate } = require('../../process_tools');
 
 module.exports = {
     name: 'skipto',
-    description:("Skips to particular track in queue"),
+    description:("跳轉到佇列中的特定音樂"),
     voiceChannel: true,
     options: [
         {
             name: 'song',
-            description:('The name/url of the track you want to skip to'),
+            description:('您想要跳轉到的音樂 名稱/連結'),
             type: ApplicationCommandOptionType.String,
             required: false,
         },
         {
             name: 'number',
-            description:('The place in the queue the song is in'),
+            description:('音樂在佇列中的位置'),
             type: ApplicationCommandOptionType.Number,
             required: false,
         }
@@ -23,17 +23,17 @@ module.exports = {
 
     async execute({ inter }) {
         const queue = useQueue(inter.guild);
-        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`No music currently playing <${inter.member}>... try again ? <❌>`) });
+        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`目前沒有音樂正在播放 <${inter.member}>... 再試一次？ <❌>`) });
 
         const track = inter.options.getString('song');
         const number = inter.options.getNumber('number')
-        if (!track && !number) return inter.editReply({ content: await Translate(`You have to use one of the options to jump to a song <${inter.member}>... try again ? <❌>`) });
+        if (!track && !number) return inter.editReply({ content: await Translate(`您必須使用其中一個選項才能跳轉音樂 <${inter.member}>... 再試一次？ <❌>`) });
 
         let trackName;
 
         if (track) {
             const skipTo = queue.tracks.toArray().find((t) => t.title.toLowerCase() === track.toLowerCase() || t.url === track)
-            if (!skipTo) return inter.editReply({ content: await Translate(`Could not find <${track}> <${inter.member}>... try using the url or the full name of the song ? <❌>`) });
+            if (!skipTo) return inter.editReply({ content: await Translate(`找不到 <${track}> <${inter.member}>... 試試使用歌曲的網址或全名？ <❌>`) });
 
             trackName = skipTo.title;
 
@@ -41,7 +41,7 @@ module.exports = {
         } else if (number) {
             const index = number - 1;
             const name = queue.tracks.toArray()[index].title;
-            if (!name) return inter.editReply({ content: await Translate(`This track does not seem to exist <${inter.member}>... try again ? <❌>`) });
+            if (!name) return inter.editReply({ content: await Translate(`此音樂似乎不存在 <${inter.member}>... 再試一次？ <❌>`) });
 
             trackName = name;
 
@@ -49,7 +49,7 @@ module.exports = {
         }
 
         const embed = new EmbedBuilder()
-            .setAuthor({ name: await Translate(`Skipped to <${trackName}> <✅>`) })
+            .setAuthor({ name: await Translate(`跳轉到 <${trackName}> <✅>`) })
             .setColor('#2f3136')
 
         inter.editReply({ embeds: [embed] });

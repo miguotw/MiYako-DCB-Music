@@ -11,29 +11,29 @@ module.exports = async (client, inter) => {
         const errorEmbed = new EmbedBuilder().setColor('#ff0000');
 
         if (!command) {
-            errorEmbed.setDescription(await Translate('<❌> | Error! Please contact Developers!'));
+            errorEmbed.setDescription(await Translate('<❌> | 錯誤！請聯絡開發人員！'));
             inter.editReply({ embeds: [errorEmbed], ephemeral: true });
             return client.slash.delete(inter.commandName);
         }
 
         if (command.permissions && !inter.member.permissions.has(command.permissions)) {
-            errorEmbed.setDescription(await Translate(`<❌> | You need do not have the proper permissions to exacute this command`));
+            errorEmbed.setDescription(await Translate(`<❌> | 您沒有執行此指令的適當權限`));
             return inter.editReply({ embeds: [errorEmbed], ephemeral: true });
         }
 
         if (DJ.enabled && DJ.commands.includes(command) && !inter.member._roles.includes(inter.guild.roles.cache.find(x => x.name === DJ.roleName).id)) {
-            errorEmbed.setDescription(await Translate(`<❌> | This command is reserved For members with <\`${DJ.roleName}\`> `));
+            errorEmbed.setDescription(await Translate(`<❌> | 此指令保留給具有 <\`${DJ.roleName}\`> 的成員`));
             return inter.editReply({ embeds: [errorEmbed], ephemeral: true });
         }
 
         if (command.voiceChannel) {
             if (!inter.member.voice.channel) {
-                errorEmbed.setDescription(await Translate(`<❌> | You are not in a Voice Channel`));
+                errorEmbed.setDescription(await Translate(`<❌> | 您不在語音頻道中`));
                 return inter.editReply({ embeds: [errorEmbed], ephemeral: true });
             }
 
             if (inter.guild.members.me.voice.channel && inter.member.voice.channel.id !== inter.guild.members.me.voice.channel.id) {
-                errorEmbed.setDescription(await Translate(`<❌> | You are not in the same Voice Channel`));
+                errorEmbed.setDescription(await Translate(`<❌> | 您不在同一個語音頻道`));
                 return inter.editReply({ embeds: [errorEmbed], ephemeral: true });
             }
         }

@@ -5,7 +5,7 @@ module.exports = (queue) => {
 
     (async () => {
         const embed = new EmbedBuilder()
-        .setAuthor({ name: await Translate('No more songs in the queue!  <❌>')})
+        .setAuthor({ name: await Translate('沒有更多的歌曲在佇列中！ <❌>')})
         .setColor('#2f3136');
 
         queue.metadata.channel.send({ embeds: [embed] });

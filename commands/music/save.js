@@ -4,12 +4,12 @@ const { Translate } = require('../../process_tools');
 
 module.exports = {
     name: 'save',
-    description:('Save the current track!'),
+    description:('儲存目前的音樂'),
     voiceChannel: true,
 
     async execute({ inter }) {
         const queue = useQueue(inter.guild);
-        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`No music currently playing <${inter.member}>... try again ? <❌>`) });
+        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`目前沒有音樂正在播放 <${inter.member}>... 再試一次？ <❌>`) });
 
         const embed = new EmbedBuilder()
             .setColor('#2f3136')
@@ -22,13 +22,13 @@ module.exports = {
                 { name: await Translate('Song <URL>:'), value: `\`${queue.currentTrack.url}\`` }
             )
             .setThumbnail(queue.currentTrack.thumbnail)
-            .setFooter({ text: await Translate(`From the server <${inter.member.guild.name}>`), iconURL: inter.member.guild.iconURL({ dynamic: false }) });
+            .setFooter({ text: await Translate(`來自伺服器 <${inter.member.guild.name}>`), iconURL: inter.member.guild.iconURL({ dynamic: false }) });
 
         inter.member.send({ embeds: [embed] })
         .then(async () => {
-            return inter.editReply({ content: await Translate(`I have sent you the music in private messages <✅>`) });
+            return inter.editReply({ content: await Translate(`我已將音樂以私人訊息傳送給您 <✅>`) });
         }).catch(async () => {
-            return inter.editReply({ content: await Translate(`Unable to send you a private message... try again ? <❌>`) });
+            return inter.editReply({ content: await Translate(`無法傳送私人訊息給您... 再試一次？ <❌>`) });
         });
     }
 }

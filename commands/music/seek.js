@@ -5,12 +5,12 @@ const { Translate } = require('../../process_tools');
 
 module.exports = {
     name: 'seek',
-    description: 'Go back or foward in a song',
+    description: '在歌曲中 回溯/前進',
     voiceChannel: true,
     options: [
         {
             name: 'time',
-            description:('The time to skip to'),
+            description:('跳轉到的時間'),
             type: ApplicationCommandOptionType.String,
             required: true,
         }
@@ -18,18 +18,18 @@ module.exports = {
     
     async execute({ inter }) {
         const queue = useQueue(inter.guild);
-        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`No music currently playing <${inter.editReply}>... try again ? <❌>`) });
+        if (!queue?.isPlaying()) return inter.editReply({ content: await Translate(`目前沒有音樂正在播放 <${inter.editReply}>... 再試一次？ <❌>`) });
 
         const timeToMS = ms(inter.options.getString('time'));
         if (timeToMS >= queue.currentTrack.durationMS) {
-            return inter.editReply({ content: await Translate(`The indicated time is higher than the total time of the current song <${inter.member}>... try again ? <❌\n> *Try for example a valid time like <**5s, 10s, 20 seconds, 1m**>...*`) });
+            return inter.editReply({ content: await Translate(`指定的時間高於目前音樂的總時間 <${inter.member}>... 再試一次？ <❌\n> *嘗試有效的時間，例如 <**5s, 10s, 20 seconds, 1m**>...*`) });
         }
 
         await queue.node.seek(timeToMS);
 
         const embed = new EmbedBuilder()
             .setColor('#2f3136')
-            .setAuthor({ name: await Translate(`Time set on the current song <**${ms(timeToMS, { long: true })}**> <✅>`) });
+            .setAuthor({ name: await Translate(`在目前歌曲上設定的時間 <**${ms(timeToMS, { long: true })}**> <✅>`) });
 
         inter.editReply({ embeds: [embed] });
     }

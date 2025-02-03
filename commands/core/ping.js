@@ -3,7 +3,7 @@ const { Translate } = require('../../process_tools');
 
 module.exports = {
     name: 'ping',
-    description:("Get the ping of the bot!"),
+    description:("取得機器人的 ping！"),
 
     async execute({ client, inter }) {
         await inter.editReply("Ping?");
